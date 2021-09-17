@@ -40,28 +40,22 @@ function insertdata(data) {
     });
     try {
         await pool.connect();
-        const result = await pool.request()
-            .output('usuario', 0)
-            .output('horain', 0)
-            .output('horafin', 0)
-            .output('fechain', 0)
-            .output('fechafin', 0)
-            .output('ttrans', 0)
-            .output('contador', 0)
-            .output('peso', 0)
-            .output('dia', 0)
-            .execute('SP_INSERTARDATA');
-        const status = {
-            Count: +result.output.Count,
-            Max: +result.output.Max,
-            Min: +result.output.Min,
-            Average: +result.output.Average,
-            Sum: +result.output.Sum
-        };
-
-        res.json(status);
+        const request = pool.request();
+         
+        request.input('usuario', 'usuario');
+        request.input('horain', myArr[0]);
+        request.input('horafin', myArr[1]);
+        request.input('fechain', myArr[2]);
+        request.input('fechafin', myArr[3]);
+        request.input('ttrans', myArr[4]);
+        request.input('contador', myArr[5]);
+        request.input('peso', myArr[6]);
+        request.input('dia', myArr[7]);
+        const result = await request.execute('SP_INSERTARDATA');
+        console.log(result);
+        
     } catch (error) {
-        res.status(500).json(error);
+        console.log(error);
     }  
    
 }
