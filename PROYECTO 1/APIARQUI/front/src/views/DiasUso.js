@@ -65,7 +65,7 @@ function getMayorUso(){
 
 function getMenorUso(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para dias de menor uso
+  fetch('http://localhost:3001/DIASMENORUSO',{mode:'cors'}) // <------------Ruta para dias de menor uso
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();

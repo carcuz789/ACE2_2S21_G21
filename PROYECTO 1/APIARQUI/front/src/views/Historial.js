@@ -18,7 +18,7 @@ global.setHistorial =[];
 global.datoBuscar = '';
 function getHistorial(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para traer todos los datos historial
+  fetch('http://localhost:3001/HISTORIALTIEMPO',{mode:'no-cors'}) // <------------Ruta para traer todos los datos historial
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();

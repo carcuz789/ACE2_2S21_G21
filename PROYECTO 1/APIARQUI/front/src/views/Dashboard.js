@@ -27,13 +27,13 @@ global.setUsoActual = [];
 
 function getData(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para la evolución del peso
+  fetch('http://localhost:3001/GRAFICAPESO',{mode:'cors'}) // <------------Ruta para la evolución del peso
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setState.push(dato);
     return dato;
   })    
@@ -42,13 +42,13 @@ function getData(){
 
 function getDiasMayorUso(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para dias con mayor uso
+  fetch('http://localhost:3001/DIASMAYORUSO',{mode:'cors'}) // <------------Ruta para dias con mayor uso
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setDiasMayorUso.push(dato);
     return dato;
   })    
@@ -56,13 +56,13 @@ function getDiasMayorUso(){
 
 function getUsoTotalHoras(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para Uso total en horas
+  fetch('http://localhost:3001/TIEMPOTOTHORASUSO',{mode:'cors'}) // <------------Ruta para Uso total en horas
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setUsoTotalHoras.push(dato);
     return dato;
   })    
@@ -76,7 +76,7 @@ function getUsoTotalDias(){
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setUsoTotalDias.push(dato);
     return dato;
   })    
@@ -84,13 +84,13 @@ function getUsoTotalDias(){
 
 function getPromedioLevantaDiario(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para Promedio que se levanta diario
+  fetch('http://localhost:3001/LEVANTAPROM',{mode:'cors'}) // <------------Ruta para Promedio que se levanta diario
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setPromedioLevantaDiario.push(dato);
     return dato;
   })    
@@ -98,13 +98,13 @@ function getPromedioLevantaDiario(){
 
 function getPromedioUsoDiario(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para variable de uso diario
+  fetch('http://localhost:3001/USOPROMPORDIA',{mode:'cors'}) // <------------Ruta para variable de uso diario
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setPromedioUsoDiario.push(dato);
     return dato;
   })    
@@ -113,13 +113,13 @@ function getPromedioUsoDiario(){
 
 function getUsoActual(){
   
-  fetch('http://localhost:4000/api/tasks/',{mode:'cors'}) // <------------Ruta para Uso actual en vivo
+  fetch('http://localhost:3001/TIEMPOREAL',{mode:'cors'}) // <------------Ruta para Uso actual en vivo
   .then((response) => {
     //console.log("vino aquí",response);
     return  response.json();
   })
   .then((dato) => {
-    //console.log(art);
+    console.log(dato);
     setUsoActual.push(dato);
     return dato;
   })    
@@ -223,7 +223,9 @@ Object.entries(setUsoTotalDias).map(([key,value]) => {
     //Agregando los números a los datos de la evolución del peso
   });
 });
+
 usoTotalDias = temp[0];
+//usoTotalDias = 12;
 temp = [];
 setUsoTotalDias = []; 
 

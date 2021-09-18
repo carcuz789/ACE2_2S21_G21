@@ -18,24 +18,17 @@ export default function Login() {
 
   function handleSubmit(event) {
     //Consulta al back y get información
-    
     let temp = [];
-    //console.log(user);
-    //datos.pop();
-    //console.log("****************************");
     event.preventDefault();
-    iniciarSesion();
-    cargarUsuario();
+    let res = iniciarSesion();
+    console.log(res);
+    //console.log(setIdUsuario);
     Object.entries(setIdUsuario).map(([key,value]) => {
-      //console.log(key);
-      //console.log("*******************************");
       Object.entries(value).map(([key1,value1]) => {
         temp.push(value1.dia); // <-----------------------------Valor del atributo json para idUsuario o idSilla
-        //console.log(value1.dia);
+        console.log(value1.dia);
       });
     });
-    idUsuario = temp[0];
-    //console.log("El id es",idUsuario);
     setIdUsuario = [];
   }
 
@@ -55,11 +48,18 @@ export default function Login() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(nuevaEntrada)
   };
-    fetch('http://localhost:4000/api/tasks/', requestOptions,{mode:'cors'}) // <------------Ruta post para la consulta del id del usuario
+    const res = fetch('http://localhost:4000/api/tasks/', requestOptions,{mode:'cors'}) // <------------Ruta post para la consulta del id del usuario
     .then((response) => {
       //console.log("vino aquí",response);
       return  response.json();
     })
+    .then((dato) => {
+      //setIdUsuario.push(dato);
+      //console.log(dato);
+      return dato;
+    })  
+
+    //const printAddress = () => {}
   }
 
 
