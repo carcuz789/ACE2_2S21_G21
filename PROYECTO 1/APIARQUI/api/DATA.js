@@ -1,7 +1,7 @@
 //para ingreso a bd
 const SerialPort = require('SerialPort');
 const ReadLine = require('@serialport/parser-readline');//@serialport/parser-readline
-const mssql = require('mssql')
+const mssql = require('mysql')
 const port = new SerialPort('COM3', { baudRate: 9600 });
 const parser = port.pipe(new ReadLine({ deliniter: '\n' }));
 const router = express.Router();
@@ -30,28 +30,29 @@ parser.on("data", data => {
 function insertdata(data) {
     
     const myArr = data.split("$");  
-    var mysql = require('mysql');
+   
 
-    var pool = mssql.ConnectionPool({
-      host: "usacrod.database.windows.net",
-      user: "rodrigo",
-      password: "reco320.aa",
-      database: "usac"
-    });
+    
     try {
-        await pool.connect();
+        var pool = mssql.createConnection({
+            host: "usacrod.database.windows.net",
+            user: "rodrigo",
+            password: "reco320.aa",
+            database: "usac"
+          });
+         
         const request = pool.request();
          
         request.input('usuario', 'usuario');
-        request.input('horain', myArr[0]);
-        request.input('horafin', myArr[1]);
-        request.input('fechain', myArr[2]);
-        request.input('fechafin', myArr[3]);
-        request.input('ttrans', myArr[4]);
-        request.input('contador', myArr[5]);
-        request.input('peso', myArr[6]);
-        request.input('dia', myArr[7]);
-        const result = await request.execute('SP_INSERTARDATA');
+        request.input('horain', '20:21');
+        request.input('horafin', '20:21');
+        request.input('fechain', '20210313');
+        request.input('fechafin', '20210313');
+        request.input('ttrans', 5);
+        request.input('contador', 5);
+        request.input('peso', 1.1);
+        request.input('dia', 'LUNES');
+        const result =  request.execute('SP_INSERTARDATA');
         console.log(result);
         
     } catch (error) {
