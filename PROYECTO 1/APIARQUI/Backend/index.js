@@ -5,6 +5,46 @@ const morgan = require("morgan");
 
 const app = express();
 const port = 3001;
+
+const {Connection, Request} = require("tedious");
+
+
+const executeSQL = (sql, callback) => {
+    let connection = new Connection({
+      "authentication": {
+        "options": {
+          "userName": "rodrigo",
+          "password": "reco320.aa"
+        },
+        "type": "default"
+      },
+      "server": "usacrod.database.windows.net",
+      "options": {
+        "validateBulkLoadParameters": false,
+        "rowCollectionOnRequestCompletion": true,
+        "database": "usac",
+        "encrypt": true
+      }
+    });
+
+    connection.connect((err) => {
+        if (err)
+          return callback(err, null);
+    
+        const request = new Request(sql, (err, rowCount, rows) => {
+          connection.close();
+    
+          if (err)
+            return callback(err, null);
+    
+          callback(null, {rowCount, rows});
+        });
+    
+        connection.execSql(request);
+      });
+    };
+
+
 /**
  * Middlewares
  * CORS
@@ -23,80 +63,119 @@ const port = 3001;
 
 // );
 
-app.get('/', async function (req, res) {
-    Mongoclient.connect(url, function (err, client) {
-        
-        if (err) throw err;
-        let database = client.db('mydb');
-        //dbo.collection('measures').findOne({}, { sort: { _id: -1 } }, (err, data) => { data.json.},);
-        database.collection('measures').findOne({},{ sort: { _id: -1 } }).then(function (result) {
-            if (result) {
-                res.json(result);
 
-            }
-        })
-    });
-});
-
-app.get('/DATOSCRUDOS', async function (req, res) {
-    var con = mysql.createConnection({
-        host: "usacrod.database.windows.net",
-        user: "rodrigo",
-        password: "reco320.aa",
-        database: "usac"
-      });
+app.get('/DATOSCRUD', async function (req, res) {
+   
       
-      con.query("EXEC SP_DATOSCRUDOS ",  {
-        success: function(results1) {            
-            console.log(results1);
+    executeSQL("EXEC SP_DATOSCRUDOS", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
 
-            var endOutput2 = results1;
+});
+app.get('/TIEMPOTOTHORASUSO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_TIEMPOTOTALHORASUSO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+      
+      });
 
-            res.send(statusCodes.OK, endOutput2 ); 
-      },
-      error: function(err) {
-            console.log("error is: " + err);
-            res.send(statusCodes.OK, { message : err });
-      }
-    });
+});
+app.get('/DARUSUARIO', async function (req, res) {
+   
+      ///VER COMO ME DA LOS DATOS
+    executeSQL("EXEC SP_TIEMPOTOTALHORASUSO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/GRAFICAPESO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_GRAFICAPESO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/DIASMAYORUSO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_DIASMAYORUSO2", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
+
+});
+app.get('/LEVANTAPROM', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_NVECESLEVANTAPROM", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
+
+});
+app.get('/USOPROMPORDIA', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_USOPROMDIA", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
+
+});
+app.get('/TIEMPOREAL', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_TIEMPOREAL", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/DIASMENORUSO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_DIASMENORUSO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/HISTORIALTIEMPO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_HISTORIALTIEMPO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
 });
 
 
-app.post('/register', function(req, res) {
-
-    //get data from the request
-    var data = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    };
-
-    function fetchID(callback) {
-        connection.query('SELECT id_user FROM USERS WHERE username = ?', data.username, function(err, rows) {
-            if (err) {
-                callback(err, null);
-            } else 
-                callback(null, rows[0].id_user);
-        });
-    }
-    var user_id;
-    fetchID(function(err, content) {
-        if (err) {
-            console.log(err);
-            return next("Mysql error, check your query");
-        } else {
-            user_id = content;
-            console.log(user_id); //undefined
-        }
-    });
-
-    console.log(user_id); //undefined
-    var payload = {
-        iss: req.hostname,
-        sub: user_id
-    }
-    console.log(payload.sub); //correct id
-})
 
 /**
  * Inicio del servidor
