@@ -18,11 +18,11 @@ const executeSQL = (sql, callback) => {
         },
         "type": "default"
       },
-      "server": "usac21.database.windows.net",
+      "server": "usacrod.database.windows.net",
       "options": {
         "validateBulkLoadParameters": false,
         "rowCollectionOnRequestCompletion": true,
-        "database": "USAC21",
+        "database": "usac",
         "encrypt": true
       }
     });
@@ -44,7 +44,7 @@ const executeSQL = (sql, callback) => {
       });
     };
 
-    app.use(cors());
+
 /**
  * Middlewares
  * CORS
@@ -75,10 +75,10 @@ app.get('/DATOSCRUD', async function (req, res) {
       });
 
 });
-app.get('/PRONOSTICO1', async function (req, res) {
+app.get('/TIEMPOTOTHORASUSO', async function (req, res) {
    
       
-    executeSQL("EXEC SP_PRONOSTICO1", (err, data) => {
+    executeSQL("EXEC SP_TIEMPOTOTALHORASUSO", (err, data) => {
         if (err)
           console.error(err);
           res.send(data);
@@ -86,6 +86,96 @@ app.get('/PRONOSTICO1', async function (req, res) {
       });
 
 });
+app.get('/DARUSUARIO', async function (req, res) {
+   
+      ///VER COMO ME DA LOS DATOS
+    executeSQL("EXEC SP_TIEMPOTOTALHORASUSO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/GRAFICAPESO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_GRAFICAPESO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/DIASMAYORUSO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_DIASMAYORUSO2", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
+
+});
+app.get('/LEVANTAPROM', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_NVECESLEVANTAPROM", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
+
+});
+app.get('/USOPROMPORDIA', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_USOPROMDIA", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+        
+      });
+
+});
+app.get('/TIEMPOREAL', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_TIEMPOREAL", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/DIASMENORUSO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_DIASMENORUSO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+app.get('/HISTORIALTIEMPO', async function (req, res) {
+   
+      
+    executeSQL("EXEC SP_HISTORIALTIEMPO", (err, data) => {
+        if (err)
+          console.error(err);
+          res.send(data);
+       
+      });
+
+});
+
+
 
 /**
  * Inicio del servidor
